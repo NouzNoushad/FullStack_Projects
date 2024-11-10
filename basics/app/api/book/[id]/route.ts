@@ -17,8 +17,10 @@ export async function DELETE(
     context: { params: { id: string } },
 ) {
     const id = +context.params.id;
-
-    const index = books.findIndex((b) => b.id === id);
+    const index = books.findIndex((b) => {
+        console.log(`bId: ${b.id}, Id: ${id}`)
+        return b.id === id
+    });
     books.splice(index, 1);
     return Response.json(books);
 }
