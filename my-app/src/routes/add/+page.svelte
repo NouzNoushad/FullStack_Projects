@@ -17,6 +17,14 @@
         const searchParams = new URLSearchParams($page.url.search);
         productId = searchParams.get("id");
         isEditMode = !!productId;
+        if (!isEditMode) {
+            product = {
+                name: "",
+                brand: "",
+                price: 0,
+                description: "",
+            };
+        }
     }
 
     const handleSubmit = async () => {
