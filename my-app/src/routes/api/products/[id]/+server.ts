@@ -23,9 +23,21 @@ export const GET: RequestHandler = async ({ params }) => {
 export const DELETE: RequestHandler = async ({ params }) => {
     const { id } = params;
     try {
-        const deletePost = await ProductModel.findByIdAndDelete(id);
-        return deletePost ? new Response(JSON.stringify(deletePost), { status: 200 }) : new Response(JSON.stringify({ message: 'Product not found' }));
+        const deleteProduct = await ProductModel.findByIdAndDelete(id);
+        return deleteProduct ? new Response(JSON.stringify(deleteProduct), { status: 200 }) : new Response(JSON.stringify({ message: 'Product not found' }), { status: 404 });
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Failed to delete product' }));
+    }
+}
+
+// update product
+export const PUT: RequestHandler = async ({ request, params }) => {
+    const { id } = params;
+    const product = await request.json();
+    try {
+        const updateProduct = await ProductModel.findByIdAndUpdate(id, product, { new: true });
+        return updateProduct ? new Response(JSON.stringify(updateProduct), { status: 200 }) : new Response(JSON.stringify({ message: 'Product not found' }), { status: 404 });
+    } catch (error) {
+        return new Response(JSON.stringify({ message: 'Failed to updated product' }));
     }
 }

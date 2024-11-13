@@ -12,9 +12,10 @@
             });
             if (!response.ok) {
                 console.error("Error: ", response.json());
+            } else {
+                console.log("Product deleted");
+                goto("/");
             }
-            console.log("Product deleted");
-            goto("/");
         } catch (error) {
             console.error("Failed to delete product");
         }
@@ -27,9 +28,10 @@
             const response = await fetch(`/api/products/${productId}`);
             if (!response.ok) {
                 throw new Error("Product not found");
+            } else {
+                const data = await response.json();
+                product = data;
             }
-            const data = await response.json();
-            product = data;
         } catch (error) {
             console.error("Failed fetch product", error);
         }
@@ -51,12 +53,13 @@
                 <div
                     class="pt-[5rem] flex flex-row items-center justify-end gap-[10px]"
                 >
-                    <button
+                    <a
+                        href={`/add?id=${product._id}`}
                         class="border border-white text-white rounded-md px-5 py-2 transition-all duration-300 hover:bg-white hover:text-black"
-                        >Update</button
+                        >Update</a
                     >
                     <button
-                        on:click={() => product && deleteProduct(product._id)}
+                        on:click={() => product && deleteProduct(product._id!)}
                         class="border border-white text-white rounded-md px-5 py-2 transition-all duration-300 hover:bg-white hover:text-black"
                         >Delete</button
                     >

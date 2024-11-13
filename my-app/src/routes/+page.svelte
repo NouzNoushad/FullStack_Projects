@@ -5,18 +5,20 @@
 
     const products = writable<Product[]>([]);
 
-    const fetchProducts = async (): Promise<Product[]> => {
-        const response = await fetch("/api/products");
-        const data = response.json();
-        return data;
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch("/api/products/");
+            if (!response.ok) {
+                throw new Error("Products not found");
+            } else {
+                const data = await response.json();
+                products.set(data);
+            }
+        } catch (error) {
+            console.error("Failed fetch products", error);
+        }
     };
-
-    const getProducts = async () => {
-        const data: Product[] = await fetchProducts();
-        products.set(data);
-    };
-
-    onMount(getProducts);
+    onMount(fetchProducts);
 </script>
 
 <main class="py-[5rem]">
