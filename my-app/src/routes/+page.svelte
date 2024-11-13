@@ -3,14 +3,6 @@
     import "../app.css";
     import { onMount } from "svelte";
 
-    interface Product {
-        _id: string;
-        name: string;
-        brand: string;
-        price: number;
-        description: string;
-    }
-
     const products = writable<Product[]>([]);
 
     const fetchProducts = async (): Promise<Product[]> => {
@@ -34,7 +26,7 @@
         >
             {#each $products as product}
                 <li class="bg-black text-white px-5 py-5 rounded-md">
-                    <a href="/" class="space-y-1">
+                    <a href={`/${product._id}`} class="space-y-1">
                         <h1 class="text-[1.2rem] font-[500]">{product.name}</h1>
                         <h3 class="font-[500] text-[0.9rem]">
                             {product.brand}
