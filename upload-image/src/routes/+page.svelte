@@ -47,6 +47,23 @@
         }
     };
 
+    const deleteImage = async (id: string) => {
+        try {
+            const response = await fetch(`/api/upload/${id}`, {
+                method: "DELETE",
+            });
+            const result = await response.json();
+            if (response.ok) {
+                console.log(result);
+                fetchFiles();
+            } else {
+                console.error(result.error);
+            }
+        } catch (error) {
+            console.error("Failed to delete", error);
+        }
+    };
+
     onMount(fetchFiles);
 </script>
 
@@ -84,12 +101,19 @@
                     class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-[10px]"
                 >
                     {#each $files as file}
-                        <div class="border-2 border-slate-500 bg-slate-50 rounded-lg px-3 py-2">
+                        <div
+                            class="border-2 border-slate-500 bg-slate-50 rounded-lg px-3 py-2 flex flex-col items-end justify-between gap-8"
+                        >
                             <img
                                 src={`${file.path}`}
                                 alt=""
                                 class="w-full bg-cover"
                             />
+                            <button
+                                on:click={() => deleteImage(file._id)}
+                                class="bg-red-500 text-white px-2 py-1 rounded-md text-[0.8rem]"
+                                >Delete</button
+                            >
                         </div>
                     {/each}
                 </div>
