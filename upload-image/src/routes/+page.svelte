@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
     import { onMount } from "svelte";
     import { writable } from "svelte/store";
 
@@ -69,9 +68,9 @@
 
 <menu>
     <div class="max-w-[1200px] mx-auto px-5 xl:px-0">
-        <div class="flex flex-col md:flex-row gap-[20px]">
+        <div class="flex flex-col md:flex-row gap-[20px] fixed h-screen">
             <div
-                class="md:w-1/2 w-full py-[5rem] flex flex-col items-center gap-[20px]"
+                class="md:w-1/3 w-full py-[5rem] flex flex-col items-center gap-[20px]"
             >
                 <div
                     class="flex flex-col md:flex-row items-center justify-center w-full gap-[10px]"
@@ -96,9 +95,9 @@
                     >Upload image</button
                 >
             </div>
-            <div class="md:w-1/2 w-full py-5">
+            <div class="md:w-2/3 w-full py-5 overflow-y-auto px-3">
                 <div
-                    class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-[10px]"
+                    class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[10px]"
                 >
                     {#each $files as file}
                         <div

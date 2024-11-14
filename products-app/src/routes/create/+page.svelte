@@ -1,0 +1,35 @@
+<section class="py-[5rem]">
+    <div class="max-w-[600px] mx-auto px-5 xl:px-0">
+        <form class="bg-background px-8 py-8 rounded-lg space-y-2">
+            <input type="text" class="bg-input px-3 py-2" placeholder="Name" />
+            <input type="text" class="bg-input px-3 py-2" placeholder="Brand" />
+            <input
+                type="number"
+                class="bg-input px-3 py-2"
+                placeholder="Price"
+            />
+            <div class="bg-input flex flex-row items-center">
+                <p class="grow text-slate-400 px-3 py-2">Image</p>
+                <label>
+                    <button
+                        class="bg-background px-10 py-2 rounded-md uppercase text-[0.9rem] transition-all duration-300 hover:bg-slate-900"
+                        >Upload</button
+                    >
+                    <input type="file" class="hidden" />
+                </label>
+            </div>
+            <textarea
+                rows="4"
+                class="bg-input px-3 py-2"
+                placeholder="Description..."
+            ></textarea>
+            <div class="pt-5 flex md:justify-end justify-center">
+                <button
+                    class="border-2 border-white text-[0.9rem] uppercase px-6 py-3 rounded-md font-[500] tracking-[0.03rem] transition-all duration-300 hover:bg-slate-900 shadow-lg"
+                >
+                    Create Product
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
