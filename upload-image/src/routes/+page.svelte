@@ -1,8 +1,11 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
+    import { onMount } from "svelte";
     import { writable } from "svelte/store";
 
     const fileName = writable<string>("");
     let imageFile: File | null = null;
+    const files = writable<Upload[]>([]);
 
     const handleFileChange = (event: Event) => {
         const input = event.target as HTMLInputElement;
@@ -28,10 +31,23 @@
         if (response.ok) {
             console.log("Image uploaded");
             fileName.set("");
+            fetchFiles();
         } else {
             console.error("Failed to upload image");
         }
     };
+
+    const fetchFiles = async () => {
+        try {
+            const response = await fetch("/api/upload");
+            const data = await response.json();
+            files.set(data);
+        } catch (error) {
+            console.error("Failed to fetch files: ", error);
+        }
+    };
+
+    onMount(fetchFiles);
 </script>
 
 <menu>
@@ -63,7 +79,21 @@
                     >Upload image</button
                 >
             </div>
-            <div class="md:w-1/2 w-full py-5"></div>
+            <div class="md:w-1/2 w-full py-5">
+                <div
+                    class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-[10px]"
+                >
+                    {#each $files as file}
+                        <div class="border-2 border-slate-500 bg-slate-50 rounded-lg px-3 py-2">
+                            <img
+                                src={`${file.path}`}
+                                alt=""
+                                class="w-full bg-cover"
+                            />
+                        </div>
+                    {/each}
+                </div>
+            </div>
         </div>
     </div>
 </menu>

@@ -4,8 +4,10 @@ import fs from "fs";
 import uploadModel from "$lib/models/File";
 import { connectToMongodb } from "$lib/db";
 
+// connect to database
 connectToMongodb();
 
+// post file
 export const POST: RequestHandler = async ({ request }) => {
     const data = await request.formData();
     const file = data.get('image') as File;
@@ -23,7 +25,7 @@ export const POST: RequestHandler = async ({ request }) => {
         fs.writeFileSync(filePath, buffer);
         const newFile = new uploadModel({
             filename: file.name,
-            path: filePath,
+            path: `uploads/${file.name}`,
             size: file.size,
         });
         await newFile.save();
@@ -31,5 +33,15 @@ export const POST: RequestHandler = async ({ request }) => {
     } catch (error) {
         console.error(error);
         return new Response('Failed to save file', { status: 500 });
+    }
+}
+
+// Get file
+export const GET = async () => {
+    try {
+        const files = await uploadModel.find();
+        return new Response(JSON.stringify(files), { status: 200 });
+    } catch (error) {
+        return new Response(JSON.stringify({ message: 'Failed to fetch files' }), { status: 500 });
     }
 }
