@@ -1,10 +1,25 @@
+<script lang="ts">
+    let product: Product = {
+        name: "",
+        brand: "",
+        price: 0,
+        description: "",
+        image: null
+    };
+
+    const createProduct = async () => {
+
+    }
+</script>
+
 <section class="py-[5rem]">
     <div class="max-w-[600px] mx-auto px-5 xl:px-0">
         <form class="bg-background px-8 py-8 rounded-lg space-y-2">
-            <input type="text" class="bg-input px-3 py-2" placeholder="Name" />
-            <input type="text" class="bg-input px-3 py-2" placeholder="Brand" />
+            <input type="text" bind:value={product.name} class="bg-input px-3 py-2" placeholder="Name" />
+            <input type="text" bind:value={product.brand} class="bg-input px-3 py-2" placeholder="Brand" />
             <input
                 type="number"
+                bind:value={product.price}
                 class="bg-input px-3 py-2"
                 placeholder="Price"
             />
@@ -20,6 +35,7 @@
             </div>
             <textarea
                 rows="4"
+                bind:value={product.description}
                 class="bg-input px-3 py-2"
                 placeholder="Description..."
             ></textarea>
