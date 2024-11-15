@@ -6,8 +6,9 @@ export const product = writable<Product>({
     brand: "",
     price: 0,
     description: "",
-    image: "",
+    image: null,
 });
+
 export const fileName = writable<string>("");
 let imageFile: File | null = null;
 
@@ -46,7 +47,7 @@ export const createProduct = async () => {
                 brand: "",
                 price: 0,
                 description: "",
-                image: "",
+                image: null,
             });
             goto("/");
         } else {

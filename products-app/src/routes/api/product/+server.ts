@@ -60,3 +60,14 @@ export const POST: RequestHandler = async ({ request }) => {
         return new Response(JSON.stringify({ error: 'Failed to save file' }), { status: 500 });
     }
 }
+
+// get products
+export const GET: RequestHandler = async () => {
+    try {
+        const products: Product[] = await ProductModel.find().populate('image');
+        return new Response(JSON.stringify(products), { status: 200 });
+    } catch (error) {
+        console.error('Failed to fetch products', error);
+        return new Response(JSON.stringify({ error: 'Failed to fetch products' }), { status: 500 });
+    }
+}

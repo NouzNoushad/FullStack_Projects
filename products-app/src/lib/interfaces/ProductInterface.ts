@@ -11,6 +11,6 @@ interface Product {
     brand: string;
     price: number;
     description: string;
-    image: string;
+    image: File | null;
 }
 
