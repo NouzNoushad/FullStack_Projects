@@ -1,4 +1,5 @@
 <script>
+    import { deleteProduct } from "$lib/store/deleteProductStore";
     import { fetchProducts, products } from "$lib/store/getProductStore";
     import { onMount } from "svelte";
 
@@ -52,7 +53,10 @@
                             <div
                                 class="w-full flex justify-center items-center"
                             >
-                                <button class="bg-red-500 table-body-button"
+                                <button
+                                    on:click={() =>
+                                        deleteProduct(product._id ?? "")}
+                                    class="bg-red-500 table-body-button"
                                     >Delete</button
                                 >
                             </div>

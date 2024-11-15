@@ -27,9 +27,10 @@ export const POST: RequestHandler = async ({ request }) => {
     // create buffer
     const arrayBuffer = await file?.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
+    const fileName = Date.now() + '-' + file.name;
 
     // file path
-    const filePath = path.join(process.cwd(), 'static/uploads', file.name);
+    const filePath = path.join(process.cwd(), 'static/uploads', fileName);
 
     try {
         // save file to local
@@ -37,8 +38,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
         // save file to db
         const newImage = await FileModel.create({
-            filename: file.name,
-            path: `uploads/${file.name}`,
+            filename: fileName,
+            path: `uploads/${fileName}`,
             size: buffer.byteLength,
         });
 
