@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { env } from "process";
+import { env } from "./env";
 
 const MONGODB_URI = env.MONGODB_URI || "";
 

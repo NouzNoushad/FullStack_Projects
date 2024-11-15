@@ -2,7 +2,13 @@ import type { RequestHandler } from "@sveltejs/kit";
 import path from "path";
 import fs from "fs";
 import { ProductModel } from "$lib/models/Product";
+import { FileModel } from "$lib/models/File";
+import connectToDatabase from "$lib/db";
 
+// connect to db
+connectToDatabase();
+
+// post product
 export const POST: RequestHandler = async ({ request }) => {
     const data = await request.formData();
     const file = data.get('image') as File | null;
@@ -11,6 +17,8 @@ export const POST: RequestHandler = async ({ request }) => {
     const description = data.get('description') as string;
     const priceString = data.get('price') as string | "";
     const price = priceString ? parseFloat(priceString) : 0;
+
+    console.log(`form data: file: ${file}, name: ${name}, brand: ${brand}, des: ${description}, price: ${price}`);
 
     if (!file) {
         return new Response(JSON.stringify('File not uploaded'), { status: 400 });
@@ -27,17 +35,22 @@ export const POST: RequestHandler = async ({ request }) => {
         // save file to local
         fs.writeFileSync(filePath, buffer);
 
+        // save file to db
+        const newImage = await FileModel.create({
+            filename: file.name,
+            path: `uploads/${file.name}`,
+            size: buffer.byteLength,
+        });
+
+        console.log(`new Image: ${newImage.filename}, id: ${newImage._id}`);
+
         // save product to db
         const newProduct = new ProductModel({
             name,
             brand,
             price,
             description,
-            image: {
-                filename: file.name,
-                path: `uploads/${file.name}`,
-                size: buffer.byteLength,
-            }
+            image: newImage._id,
         });
 
         await newProduct.save();

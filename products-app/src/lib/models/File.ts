@@ -6,7 +6,7 @@ export interface SFile extends Document {
     size: number;
 }
 
-export const FileSchema = new Schema<SFile>({
+const FileSchema = new Schema<SFile>({
     filename: {
         type: String,
         required: true,
@@ -21,4 +21,4 @@ export const FileSchema = new Schema<SFile>({
     }
 });
 
-export const fileModel = mongoose.models.FileDocument || model('FileDocument', FileSchema);
+export const FileModel = mongoose.models.FileDocument || model('FileDocument', FileSchema);

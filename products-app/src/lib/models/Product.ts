@@ -1,5 +1,5 @@
 import mongoose, { Document, model, Schema } from "mongoose"
-import { FileSchema, type SFile } from "./File";
+import { type SFile } from "./File";
 
 interface SProduct extends Document {
     name: string;
@@ -26,7 +26,11 @@ const ProductSchema = new Schema<SProduct>({
         type: String,
         required: true,
     },
-    image: FileSchema,
+    image: {
+        type: Schema.Types.ObjectId,
+        ref: 'FileDocument',
+        required: true,
+    },
 }, {
     timestamps: true,
 });
