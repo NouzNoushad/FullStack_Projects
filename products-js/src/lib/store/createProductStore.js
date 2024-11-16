@@ -26,7 +26,7 @@ export const handleFileChange = (e) => {
 // create product
 export const createProduct = async () => {
     const formData = new FormData();
-    const currentProduct = getContext(product);
+    const currentProduct = get(product);
     formData.append('name', currentProduct.name);
     formData.append('brand', currentProduct.brand);
     formData.append('price', currentProduct.price);
@@ -38,7 +38,20 @@ export const createProduct = async () => {
             method: 'POST',
             body: formData,
         });
-
+        if (response.ok) {
+            console.log('Success');
+            product.set({
+                name: "",
+                brand: "",
+                price: 0,
+                description: "",
+                image: null
+            });
+            fileName.set("");
+            imageFile = null;
+        } else {
+            console.log('Failed');
+        }
     } catch (error) {
         console.error('Failed to create product', error);
     }
