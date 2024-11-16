@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .bg-navbar,
+    .bg-background {
+        @apply bg-slate-800 text-slate-100;
+    }
+
+    .max-w-responsive {
+        @apply max-w-[1200px] mx-auto px-5 xl:px-0;
+    }
+
+    .bg-input {
+        @apply rounded-md border-2 border-white bg-white outline-none text-black w-full;
+    }
+
+    .bg-link {
+        @apply relative before:absolute before:bg-white before:h-[0.07rem] rounded before:w-0 before:left-0 before:bottom-[-1px] transition-all duration-300 hover:text-white before:transition-all before:duration-300 hover:before:w-full
+    }
+
+    .table-head {
+        @apply font-[500] border-r border-slate-700;
+    }
+
+    .table-body-text {
+        @apply px-[2rem] py-[2rem] text-center font-[500];
+    }
+    
+    .table-body-image {
+        @apply h-[60px] w-[60px] mx-auto;
+    }
+
+    .table-body-button {
+        @apply px-5 py-2 text-white rounded-md uppercase text-[0.9rem] font-[500] mx-auto;
+    }
+}
