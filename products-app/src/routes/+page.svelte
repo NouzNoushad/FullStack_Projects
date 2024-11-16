@@ -43,7 +43,7 @@
                                 class="w-full flex justify-center items-center"
                             >
                                 <a
-                                    href="/"
+                                    href={`/create?id=${product._id}`}
                                     class="bg-blue-500 table-body-button"
                                     >Update</a
                                 >
