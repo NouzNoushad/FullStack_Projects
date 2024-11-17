@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { writable, get } from "svelte/store";
 
 export const product = writable({
@@ -49,6 +50,7 @@ export const createProduct = async () => {
             });
             fileName.set("");
             imageFile = null;
+            goto("/");
         } else {
             console.log('Failed');
         }

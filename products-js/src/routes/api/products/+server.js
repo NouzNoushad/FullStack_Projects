@@ -30,7 +30,8 @@ export const POST = async ({ request }) => {
 
     try {
         // save to local
-        fs.writeFileSync(filePath);
+        fs.writeFileSync(filePath, buffer);
+
         // save to file db
         const newFile = await fileModel.create({
             filename: fileName,
@@ -48,5 +49,15 @@ export const POST = async ({ request }) => {
         return new Response(JSON.stringify(newProduct), { status: 200 });
     } catch (error) {
         return new Response(JSON.stringify({ error: 'Failed to post product' }), { status: 500 });
+    }
+}
+
+// get products
+export const GET = async () => {
+    try {
+        const products = await productModel.find().populate('image');
+        return new Response(JSON.stringify(products), { status: 200 });
+    } catch (error) {
+        return new Response(JSON.stringify({ error: 'Failed to fetch products' }), { status: 500 });
     }
 }
