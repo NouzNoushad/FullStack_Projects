@@ -11,6 +11,8 @@ export const product = writable({
 
 export let imageFile = null;
 export const fileName = writable("");
+export const isEditMode = writable(false);
+export const productId = writable("");
 
 // handle file change
 export const handleFileChange = (e) => {
@@ -32,11 +34,17 @@ export const createProduct = async () => {
     formData.append('brand', currentProduct.brand);
     formData.append('price', currentProduct.price);
     formData.append('description', currentProduct.description);
-    formData.append('image', imageFile);
+    if (imageFile) {
+        formData.append('image', imageFile);
+    }
+    formData.append('image', "");
+
+    const url = get(isEditMode) ? `/api/products/${get(productId)}` : '/api/products';
+    const method = get(isEditMode) ? 'PUT' : 'POST';
 
     try {
-        const response = await fetch('/api/products', {
-            method: 'POST',
+        const response = await fetch(url, {
+            method,
             body: formData,
         });
         if (response.ok) {
@@ -55,6 +63,21 @@ export const createProduct = async () => {
             console.log('Failed');
         }
     } catch (error) {
-        console.error('Failed to create product', error);
+        console.error('Failed', error);
+    }
+}
+
+export const fetchProduct = async (productId) => {
+    try {
+        const response = await fetch(`/api/products/${productId}`);
+        if (response.ok) {
+            const data = await response.json();
+            product.set(data);
+            fileName.set(data.image.filename);
+        } else {
+            console.log('Failed fetch product');
+        }
+    } catch (error) {
+        console.error("Failed: ", error);
     }
 }

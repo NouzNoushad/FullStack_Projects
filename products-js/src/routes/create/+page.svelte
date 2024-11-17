@@ -1,10 +1,37 @@
 <script>
+    import { page } from "$app/stores";
     import {
         handleFileChange,
         product,
         fileName,
         createProduct,
+        productId,
+        isEditMode,
+        fetchProduct,
     } from "$lib/store/createProductStore";
+    import { onMount } from "svelte";
+
+    $: {
+        const searchParams = new URLSearchParams($page.url.search);
+        productId.set(searchParams.get("id"));
+        isEditMode.set($productId ? true : false);
+        if (!$isEditMode) {
+            fileName.set("");
+            product.set({
+                name: "",
+                brand: "",
+                price: 0,
+                description: "",
+                image: null,
+            });
+        }
+    }
+
+    onMount(() => {
+        if ($isEditMode && $productId) {
+            fetchProduct($productId);
+        }
+    });
 </script>
 
 <section class="py-[5rem]">
@@ -62,7 +89,7 @@
                     type="submit"
                     class="border-2 border-white text-[0.9rem] uppercase px-6 py-3 rounded-md font-[500] tracking-[0.03rem] transition-all duration-300 hover:bg-slate-900 shadow-lg"
                 >
-                    {"Create"} Product
+                    {$isEditMode ? "Update" : "Create"} Product
                 </button>
             </div>
         </form>
