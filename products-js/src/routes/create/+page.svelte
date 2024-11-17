@@ -1,5 +1,6 @@
 <script>
     import { page } from "$app/stores";
+    import TextInput from "$lib/components/TextInput.svelte";
     import {
         handleFileChange,
         product,
@@ -40,21 +41,18 @@
             on:submit|preventDefault={createProduct}
             class="bg-background px-8 py-8 rounded-lg space-y-2"
         >
-            <input
+            <TextInput
                 type="text"
-                class="bg-input px-3 py-2"
                 placeholder="Name"
                 bind:value={$product.name}
             />
-            <input
+            <TextInput
                 type="text"
-                class="bg-input px-3 py-2"
                 placeholder="Brand"
                 bind:value={$product.brand}
             />
-            <input
+            <TextInput
                 type="number"
-                class="bg-input px-3 py-2"
                 placeholder="Price"
                 bind:value={$product.price}
             />
@@ -85,10 +83,7 @@
                 bind:value={$product.description}
             ></textarea>
             <div class="pt-5 flex md:justify-end justify-center">
-                <button
-                    type="submit"
-                    class="border-2 border-white text-[0.9rem] uppercase px-6 py-3 rounded-md font-[500] tracking-[0.03rem] transition-all duration-300 hover:bg-slate-900 shadow-lg"
-                >
+                <button type="submit" class="form-button">
                     {$isEditMode ? "Update" : "Create"} Product
                 </button>
             </div>

@@ -35,4 +35,12 @@
     .table-body-button {
         @apply px-5 py-2 text-white rounded-md uppercase text-[0.9rem] font-[500] mx-auto;
     }
+
+    .nav-button {
+        @apply uppercase text-[0.9rem] bg-white text-black rounded-md px-3 py-2;
+    }
+
+    .form-button {
+        @apply border-2 border-white text-[0.9rem] text-white uppercase px-6 py-3 rounded-md font-[500] tracking-[0.03rem] transition-all duration-300 hover:bg-slate-900 shadow-lg;
+    }
 }
