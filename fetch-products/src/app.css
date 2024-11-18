@@ -1,0 +1,9 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+    .max-w-responsive {
+        @apply max-w-[1200px] mx-auto px-5 xl:px-0
+    }
+}

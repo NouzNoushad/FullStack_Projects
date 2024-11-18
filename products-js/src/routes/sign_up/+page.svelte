@@ -12,7 +12,7 @@
             </div>
         {/if}
         <form
-            on:submit|preventDefault={validateUser}
+            onsubmit={validateUser}
             class="bg-slate-800 rounded-lg px-8 py-8 space-y-2"
         >
             <input

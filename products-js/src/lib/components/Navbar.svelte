@@ -6,7 +6,7 @@
     import NavLink from "./NavLink.svelte";
     import { onMount } from "svelte";
 
-    export let auth_token;
+    let { auth_token } = $props();
 </script>
 
 <nav class="bg-navbar h-[10vh]">
@@ -22,16 +22,16 @@
                 <NavLink href="/create" text="Create" />
                 <div class="space-x-1">
                     {#if auth_token}
-                        <button on:click={logoutUser} class="nav-button"
+                        <button onclick={logoutUser} class="nav-button"
                             >Logout</button
                         >
                     {:else}
                         <button
-                            on:click={() => goto("/sign_up")}
+                            onclick={() => goto("/sign_up")}
                             class="nav-button">Sign Up</button
                         >
                         <button
-                            on:click={() => goto("/login")}
+                            onclick={() => goto("/login")}
                             class="nav-button">Login</button
                         >
                     {/if}
