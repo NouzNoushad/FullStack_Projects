@@ -1,5 +1,6 @@
 import { goto } from "$app/navigation";
 import { writable, get } from "svelte/store"
+import { env } from "$lib/env";
 
 export const user = writable({
     email: '',
@@ -36,8 +37,12 @@ export const loginUser = async () => {
         });
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
-            goto('/');
+            const token = data.token;
+            user.set({
+                email: "",
+                password: "",
+            })
+            location.replace("/");
         } else {
             console.log('Failed to login');
         }

@@ -8,20 +8,26 @@ import { env } from "$lib/env";
 connectToDatabase();
 
 // login user
-export const POST = async ({ request }) => {
+export const POST = async ({ request, cookies }) => {
     const { email, password } = await request.json();
     console.log(`emaii: ${email}, pass; ${password}`);
     try {
         const user = await userModel.findOne({ email: email });
         const hashPassword = await bcrypt.compare(password, user.password);
-        console.log(`pass: ${hashPassword}, user; ${user}`);
 
         if (!user || !hashPassword) {
             return new Response(JSON.stringify({ error: 'Invalid user' }), { status: 400 });
+        } else {
+            const jwtToken = jwt.sign({ email }, env.SECRET_KEY, { expiresIn: '1hr' });
+            cookies.set('auth_token', jwtToken, {
+                httpOnly: true,
+                secure: env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 60 * 60 * 24,
+                path: '/'
+            });
+            return new Response(JSON.stringify({ message: 'Success', token: jwtToken }), { status: 200 });
         }
-
-        const jwtToken = jwt.sign({ email }, env.SECRET_KEY, { expiresIn: '1hr' });
-        return new Response(JSON.stringify({ message: 'Success', token: jwtToken }), { status: 200 });
     } catch (error) {
         return new Response(JSON.stringify({ error: 'Failed to login' }), { status: 500 });
     }

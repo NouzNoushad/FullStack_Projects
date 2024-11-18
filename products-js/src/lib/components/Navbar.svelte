@@ -1,6 +1,12 @@
 <script>
     import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import { logoutUser } from "$lib/store/logoutUserStore";
+    import { writable } from "svelte/store";
     import NavLink from "./NavLink.svelte";
+    import { onMount } from "svelte";
+
+    export let auth_token;
 </script>
 
 <nav class="bg-navbar h-[10vh]">
@@ -15,12 +21,20 @@
                 <NavLink href="/" text="Home" />
                 <NavLink href="/create" text="Create" />
                 <div class="space-x-1">
-                    <button on:click={() => goto("/sign_up")} class="nav-button"
-                        >Sign Up</button
-                    >
-                    <button on:click={() => goto("/login")} class="nav-button"
-                        >Login</button
-                    >
+                    {#if auth_token}
+                        <button on:click={logoutUser} class="nav-button"
+                            >Logout</button
+                        >
+                    {:else}
+                        <button
+                            on:click={() => goto("/sign_up")}
+                            class="nav-button">Sign Up</button
+                        >
+                        <button
+                            on:click={() => goto("/login")}
+                            class="nav-button">Login</button
+                        >
+                    {/if}
                 </div>
             </ul>
         </div>

@@ -1,8 +1,9 @@
 <script>
     import Navbar from "$lib/components/Navbar.svelte";
     import "../app.css";
-    const { children } = $props();
+    export let data;
 </script>
 
-<Navbar />
-{@render children()}
+<Navbar auth_token={data.auth_token} />
+
+<slot />

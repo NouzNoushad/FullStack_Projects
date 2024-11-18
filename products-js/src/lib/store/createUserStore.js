@@ -50,7 +50,7 @@ export const signUpUser = async (user) => {
                 password: '',
                 confirmPassword: "",
             });
-            goto("/");
+            goto("/login");
         } else {
             console.log(response.error);
             error.set(response.error);

@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+if (typeof window === 'undefined') {
+    dotenv.config();
+}
 
-export const env = process.env;
+export const env = typeof window === 'undefined' ? process.env : import.meta.env;
