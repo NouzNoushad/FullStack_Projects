@@ -2,6 +2,17 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
+// get products
+export const GET = async () => {
+    try {
+        const products = await prisma.product.findMany()
+        return new Response(JSON.stringify({ message: `items: ${products.length}`, products }), { status: 200 })
+    } catch (error) {
+        return new Response(JSON.stringify({ error: 'Failed to fetch products' }), { status: 500 })
+    }
+}
+
+// post product
 export const POST = async (request) => {
     const { product } = await request.json()
     console.log(` product name: ${product.name}, brand: ${product.brand}, price: ${product.price}, des: ${product.description}`)
