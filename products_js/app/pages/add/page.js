@@ -4,13 +4,13 @@ import { useProductForm } from '@/app/store/addProductStore'
 import React from 'react'
 
 export default function addPage() {
-    
-    const {product, handleChange } = useProductForm()
+
+    const { product, handleChange, handleFormSubmit } = useProductForm()
 
     return (
         <section>
             <div className="max-w-[600px] mx-auto px-5 xl:px-0 my-[5rem]">
-                <form className="bg-black rounded-md px-[20px] py-[40px] space-y-[15px]">
+                <form onSubmit={handleFormSubmit} className="bg-black rounded-md px-[20px] py-[40px] space-y-[15px]">
                     <input type="text" placeholder="Enter product name" className="input-bg" value={product.name} name='name' onChange={handleChange} />
                     <input type="text" placeholder="Enter product brand" className="input-bg" value={product.brand} name='brand' onChange={handleChange} />
                     <input type="number" placeholder="Enter product price" className="input-bg" value={product.price} name='price' onChange={handleChange} />
