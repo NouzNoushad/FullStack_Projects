@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+    .max-w-responsive {
+        @apply max-w-[1200px] mx-auto px-5 xl:px-0;
+    }
+
+    .input-bg {
+        @apply rounded-sm px-[10px] py-[10px] w-full text-black;
+    }
+}
