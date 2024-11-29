@@ -1,5 +1,4 @@
 export const addCartAction = () => {
-
     const handleAddToCart = async (product) => {
         try {
             const response = await fetch('/api/cart', {
@@ -14,6 +13,7 @@ export const addCartAction = () => {
             }
             const data = await response.json()
             console.log(`data: ${data.message}`)
+            window.location.reload()
         } catch (error) {
             console.error(`Error: ${error}`)
         }

@@ -1,5 +1,15 @@
 import prisma from "@/app/utils/prisma"
 
+export const GET = async () => {
+    try {
+        const carts = await prisma.cart.findMany()
+        return new Response(JSON.stringify({ message: `items: ${carts.length}`, carts }), { status: 200 })
+    } catch (error) {
+        console.log(`Error: ${error}`)
+        return new Response(JSON.stringify({ error: 'Failed to fetch carts' }), { status: 500 })
+    }
+}
+
 export const POST = async (request) => {
     const { image, title, price, description, rating = { rate: 0 }, category } = await request.json()
 
