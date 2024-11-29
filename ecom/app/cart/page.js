@@ -3,9 +3,14 @@
 import React from 'react'
 import { getCartsAction } from '../action/getCartAction'
 import CartItem from '../components/cartItem'
+import { LoadingIndicator } from '../utils/svgs'
 
 export default function Cart() {
-    const { carts } = getCartsAction()
+    const { carts, isLoading, error } = getCartsAction()
+
+    if (isLoading) return <p className="h-[calc(100vh-10vh)] flex items-center justify-center"><LoadingIndicator className="size-6 text-yellow-600" /></p>
+    if (error) return <p>Error: {error.message}</p>
+
     return (
         <section className="py-[4rem]">
             <div className="max-w-responsive">

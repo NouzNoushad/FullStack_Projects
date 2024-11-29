@@ -1,22 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-export const addCartAction = () => {
+export const deleteCartAction = () => {
     const queryClient = useQueryClient()
 
-    const handleCartAddMutation = useMutation({
-        mutationFn: async (product) => {
-            const response = await fetch('/api/cart', {
-                method: 'POST',
+    const handleCartDelete = useMutation({
+        mutationFn: async (id) => {
+            const response = await fetch(`/api/cart/${id}`, {
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(product)
+                }
             })
             if (!response.ok) {
-                throw new Error('Failed to add cart')
+                throw new Error('Failed to delete cart')
             }
             const data = await response.json()
-            console.log(`data: ${data.message}`)
+            console.log(data.message)
             return data
         },
         onSuccess: (data) => {
@@ -24,12 +23,12 @@ export const addCartAction = () => {
             queryClient.invalidateQueries({ queryKey: ['cart'] })
         },
         onError: (error) => {
-            console.log(`Error adding cart: ${error}`)
+            console.error('Error deleting cart:', error)
         }
     })
 
     return {
-        handleAddToCart: handleCartAddMutation.mutate,
-        isLoading: handleCartAddMutation.isLoading,
+        handleDeleteCart: handleCartDelete.mutate,
+        isLoading: handleCartDelete.isLoading,
     }
 }

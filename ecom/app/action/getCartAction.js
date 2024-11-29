@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 
 export const getCartsAction = () => {
-    const [carts, setCarts] = useState([])
 
     const getCarts = async () => {
-        try {
-            const response = await fetch('/api/cart')
-            if (!response.ok) {
-                throw new Error('Failed to fetch carts')
-            }
-            const data = await response.json()
-            console.log(data.carts)
-            setCarts(data.carts)
-        } catch (error) {
-            console.error(`Error: ${error}`)
+        const response = await fetch('/api/cart')
+        if (!response.ok) {
+            throw new Error('Failed to fetch carts')
         }
+        const data = await response.json()
+        console.log(data.carts)
+        return data.carts
     }
 
-    useEffect(() => {
-        getCarts()
-    }, [])
+    const { data: carts = [], isLoading, error } = useQuery({
+        queryKey: ['cart'],
+        queryFn: getCarts,
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: false,
+    })
 
     return {
         carts,
+        isLoading,
+        error,
     }
 }

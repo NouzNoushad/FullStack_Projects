@@ -4,7 +4,7 @@ import { StarOutline, StarSolid } from '../utils/svgs'
 
 export default function ProductItem({ product }) {
 
-    const { handleAddToCart } = addCartAction()
+    const { handleAddToCart, isLoading } = addCartAction()
     return (
         <div className="border border-black rounded-md shadow-lg px-5 py-5 flex flex-col cursor-pointer">
             <div className="grow">

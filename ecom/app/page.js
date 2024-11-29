@@ -2,16 +2,14 @@
 
 import { getProductsAction } from "./action/fetchProducts";
 import ProductItem from "./components/productItem";
+import { LoadingIndicator } from "./utils/svgs";
 
 export default function Home() {
 
-    const { products, loading } = getProductsAction()
+    const { products, isLoading, error } = getProductsAction()
 
-    if (loading) {
-        <div className="text-black flex items-center justify-center text-[2rem]">
-            Loading...
-        </div>
-    }
+    if (isLoading) return <p className="h-[calc(100vh-10vh)] flex items-center justify-center"><LoadingIndicator className="size-6 text-yellow-600" /></p>
+    if (error) return <p>Error: {error.message}</p>
 
     return (
         <main className="py-[3rem]">
