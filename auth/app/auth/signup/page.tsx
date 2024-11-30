@@ -1,11 +1,11 @@
 'use client'
 
-import { handleSignUpForm } from '@/app/actions/auth';
+import { handleSignUpForm } from '@/app/actions/signUpFormAction';
 import Link from 'next/link';
 import React from 'react'
 
 export default function Signup() {
-    const { handleSubmit, errors } = handleSignUpForm()
+    const { handleSubmit, errors, isLoading } = handleSignUpForm()
     return (
         <main className="h-[calc(100vh-10vh)] flex items-center justify-center">
             <div className="w-[400px] mx-auto px-5 xl:px-0">
@@ -26,7 +26,7 @@ export default function Signup() {
                         </div>
 
                         <div className="pt-10">
-                            <button type="submit" className="w-full bg-blue-800 text-white font-[500] text-[0.9rem] py-1 rounded-sm">Sign up</button>
+                            <button type="submit" className="w-full bg-blue-800 text-white font-[500] text-[0.9rem] py-1 rounded-sm">{isLoading ? 'Signing up' : 'Sign up'}</button>
                         </div>
                     </form>
                     <div className="mt-4 flex flex-row items-center justify-center gap-[5px]">
