@@ -13,7 +13,7 @@ export const handleSignUpForm = () => {
 
     const signUpUserMutation = useMutation({
         mutationFn: async (formData: FormData) => {
-            const response = await fetch('/api/auth/', {
+            const response = await fetch('/api/auth/signup/', {
                 method: 'POST',
                 body: formData,
             })

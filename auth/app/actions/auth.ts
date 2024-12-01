@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { FormState, SignupFormSchema } from "../lib/validations";
+import { FormState, LoginFormSchema, SignupFormSchema } from "../lib/validations";
 
 export const signup = async (state: FormState, formData: FormData) => {
     // validate form field
@@ -12,6 +12,19 @@ export const signup = async (state: FormState, formData: FormData) => {
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+}
+
+export const login = async (state: FormState, formData: FormData) => {
+    const validateFields = LoginFormSchema.safeParse({
+        email: formData.get('email') as string,
+        password: formData.get('password') as string,
+    })
+
+    if (!validateFields.success) {
+        return {
+            errors: validateFields.error.flatten().fieldErrors,
         }
     }
 }
