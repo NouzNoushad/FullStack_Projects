@@ -1,8 +1,12 @@
+'use client'
+
+import { userFormAction } from '@/app/actions/users/userFormAction'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import React from 'react'
 
 export default function AddUsers() {
+    const { handleImageUpload, file } = userFormAction()
     return (
         <main className='py-[5rem]'>
             <div className="max-w-responsive">
@@ -11,7 +15,7 @@ export default function AddUsers() {
                         <CardTitle className='text-center'>User details</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <form action="">
+                        <form>
                             <div className="grid w-full items-center gap-4">
                                 <div className="space-y-1">
                                     <label htmlFor="name" className='text-[0.9rem]'>Name</label>
@@ -32,8 +36,11 @@ export default function AddUsers() {
                                 <div className="space-y-1">
                                     <label htmlFor="image" className='text-[0.9rem]'>Image</label>
                                     <div className="flex flex-row items-center justify-between form-input">
-                                        <h4 className='text-gray-400'>Upload image</h4>
-                                        <button className='bg-black px-5 py-1 text-white rounded-md text-[0.9rem]'>Upload</button>
+                                        <h4 className={file ? 'text-black' : `text-gray-400`}>{file ? file.name : 'Upload image'}</h4>
+                                        <label>
+                                            <span className=' bg-black px-5 py-2 text-white rounded-md text-[0.9rem] cursor-pointer'>Upload</span>
+                                            <input type="file" id='name' name="image" onChange={handleImageUpload} accept="image/*" className='hidden' />
+                                        </label>
                                     </div>
                                 </div>
                                 <Button className='mt-5 uppercase'>Add User</Button>
