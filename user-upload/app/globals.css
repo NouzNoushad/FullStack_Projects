@@ -85,4 +85,20 @@ body {
     .form-error {
         @apply text-[0.8rem] text-red-500 mt-2;
     }
+
+    .table-head {
+        @apply font-[500] border-r border-slate-700;
+    }
+
+    .table-body-text {
+        @apply px-[2rem] py-[2rem] text-center font-[500];
+    }
+    
+    .table-body-image {
+        @apply h-[60px] w-[60px] mx-auto;
+    }
+
+    .table-body-button {
+        @apply px-5 py-2 text-white rounded-md uppercase text-[0.9rem] font-[500] mx-auto;
+    }
 }

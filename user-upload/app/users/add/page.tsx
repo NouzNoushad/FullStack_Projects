@@ -3,6 +3,7 @@
 import { userFormAction } from '@/app/actions/users/userFormAction'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Loader2 } from 'lucide-react'
 import React from 'react'
 
 export default function AddUsers() {
@@ -54,7 +55,11 @@ export default function AddUsers() {
                                     </div>
                                     {errors?.image && <p className="form-error">{errors.image}</p>}
                                 </div>
-                                <Button type='submit' className='mt-5 uppercase'>{isLoading ? 'Adding' : 'Add User'}</Button>
+                                <Button type='submit' className='mt-5 uppercase'>
+                                    <span>
+                                        {isLoading ? <Loader2 className='animate-spin' /> : null}
+                                    </span>
+                                    {isLoading ? 'Adding' : 'Add User'}</Button>
                             </div>
                         </form>
                     </CardContent>

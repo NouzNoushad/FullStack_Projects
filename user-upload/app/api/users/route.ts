@@ -3,13 +3,10 @@ import prisma from "@/lib/prismaClient"
 import { Prisma } from "@prisma/client"
 import DataURIParser from "datauri/parser"
 import { NextRequest, NextResponse } from "next/server"
+import { Image } from "@/app/interface/userInterface"
 import path from "path"
 
-interface Image {
-    publicId: string
-    secureUrl: string
-}
-
+// post user
 export const POST = async (request: NextRequest) => {
     const formData = await request.formData()
 
@@ -60,12 +57,45 @@ export const POST = async (request: NextRequest) => {
                 phone,
                 profession,
                 image: image === "" ? undefined : { create: uploadImage }
-            } as Prisma.UserCreateInput
+            } as Prisma.UserCreateInput,
+            include: {
+                image: true,
+            }
         })
 
         return NextResponse.json({ message: 'User added', newUser }, { status: 201 })
     } catch (error) {
         console.log(`Server Error: ${error}`)
-        return NextResponse.json({ error: `Failed to add user` }, { status: 400 })
+        return NextResponse.json({ error: `Failed to add user` }, { status: 500 })
+    }
+}
+
+// get all users
+export const GET = async () => {
+    try {
+        const users = await prisma.user.findMany({ include: { image: true } })
+
+        const usersImage = await Promise.all(users.map(async (user) => {
+            if (user.image) {
+                const url = cloudinary.v2.url(user.image.publicId, {
+                    secure: true,
+                    type: "authenticated",
+                })
+
+                return {
+                    ...user,
+                    url,
+                }
+            }
+            return user
+        }))
+
+        usersImage.map((user) => {
+            console.log(`name: ${user.name}, email: ${user.email}, phone: ${user.phone}, profession: ${user.profession}, image: ${user.image}`)
+        })
+        return NextResponse.json({ users: usersImage }, { status: 200 })
+    } catch (error) {
+        console.log(`Error: ${error}`)
+        return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 })
     }
 }
