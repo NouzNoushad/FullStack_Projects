@@ -4,6 +4,7 @@ import { userValidation } from "../validation"
 import { UserFormError } from "@/lib/validationSchema"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export const userFormAction = () => {
     const [file, setFile] = useState<File | null>(null)
@@ -36,6 +37,9 @@ export const userFormAction = () => {
         onSuccess: (data) => {
             console.log(`data: ${data}`)
             queryClient.invalidateQueries({ queryKey: ['user'] })
+
+            toast(data.message)
+
             router.push('/')
         },
         onError: (error) => {
@@ -55,7 +59,7 @@ export const userFormAction = () => {
         } else {
             formData.append('image', '')
         }
-        
+
         const response = await userValidation({}, formData)
 
         if (response?.errors) {

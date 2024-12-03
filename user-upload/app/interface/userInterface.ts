@@ -11,3 +11,9 @@ export interface User {
     profession: string
     image: Image
 }
+
+export interface PaginationProps {
+    totalPages: number
+    currentPage: number
+    onPageChange: (page: number) => void
+}
