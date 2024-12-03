@@ -6,9 +6,10 @@ import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { PaginationComponent } from "@/components/pagination";
 import { DeleteIcon, EditIcon } from "@/components/svgs/svgs";
+import { paginationLimit } from "@/lib/constants";
 
 export default function Home() {
-    const { users, paginatedItems, totalPages, isLoading, error, handlePageChange, currentPage } = getUsersAction()
+    const { paginatedItems, totalPages, isLoading, error, handlePageChange, currentPage, deleteId, handleDeleteUser, isDeleting } = getUsersAction()
 
     if (isLoading) return <p className="h-[calc(100vh-10vh)] flex items-center justify-center">
         <Loader2 className="animate-spin" />
@@ -33,9 +34,9 @@ export default function Home() {
                     </TableHeader>
                     <TableBody>
                         {
-                            paginatedItems && paginatedItems.map((user) => (
+                            paginatedItems && paginatedItems.map((user, index) => (
                                 <TableRow key={user.id}>
-                                    <TableCell className="text-[0.95rem]">{users && users.indexOf(user) + 1}</TableCell>
+                                    <TableCell className="text-[0.95rem]">{paginationLimit * (currentPage - 1) + index + 1}</TableCell>
                                     <TableCell className="h-[60px] w-[100px]">
                                         {
                                             user.image ? <Image src={user.image.secureUrl} alt="" width={'80'} height={'80'} className="rounded-[50%] h-[60px] w-[60px] mx-auto" /> : <div className="rounded-[50%] h-[60px] w-[60px] bg-slate-300 mx-auto"></div>
@@ -45,8 +46,8 @@ export default function Home() {
                                     <TableCell className="text-[0.95rem]">{user.email}</TableCell>
                                     <TableCell className="text-[0.95rem]">{user.phone}</TableCell>
                                     <TableCell className="text-[0.95rem]">{user.profession}</TableCell>
-                                    <TableCell>
-                                        <DeleteIcon className="size-5 mx-auto cursor-pointer" />
+                                    <TableCell onClick={() => handleDeleteUser(user.id)}>
+                                        {isDeleting && deleteId == user.id ? <Loader2 className="animate-spin mx-auto" /> : <DeleteIcon className="size-5 mx-auto cursor-pointer" />}
                                     </TableCell>
                                     <TableCell>
                                         <EditIcon className="size-5 mx-auto cursor-pointer" />
