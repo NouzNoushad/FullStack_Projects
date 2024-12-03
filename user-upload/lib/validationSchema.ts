@@ -1,14 +1,19 @@
 import { z } from "zod";
 
+const MAX_UPLOAD_SIZE = 3 * 1024 * 1024;
+
 // user validation schema
 export const UserFormSchema = z.object({
     name: z.string().min(2, { message: 'Name must be at least 2 characters long' }).trim(),
     email: z.string().email({ message: 'Please enter valid email' }),
     phone: z.string().min(10, { message: 'Phone number must be at least 10 characters long' }).regex(/^\d+$/, { message: 'Phone number must contain only digits' }),
     profession: z.string().optional(),
-    image: z.instanceof(File).refine((file) => file.type.startsWith("image/"), {
-        message: 'File must be an image'
-    }).optional(),
+    image: z
+        .any()
+        .optional()
+        .refine((file) => {
+            return !file || file.size <= MAX_UPLOAD_SIZE;
+        }, 'File size must be less than 3MB'),
 })
 
 // error handling type
