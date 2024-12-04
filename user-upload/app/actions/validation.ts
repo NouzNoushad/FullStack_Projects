@@ -1,4 +1,4 @@
-import { SignupFormSchema, SignupFormState, UserFormSchema, UserFormState } from "@/lib/validationSchema";
+import { LoginFormSchema, LoginFormState, SignupFormSchema, SignupFormState, UserFormSchema, UserFormState } from "@/lib/validationSchema";
 
 // user validation
 export const userValidation = async (state: UserFormState, formData: FormData) => {
@@ -19,15 +19,29 @@ export const userValidation = async (state: UserFormState, formData: FormData) =
 
 // signup validation
 export const signupValidation = async (state: SignupFormState, formData: FormData) => {
-    const validatiedFeilds = SignupFormSchema.safeParse({
+    const validatedFeilds = SignupFormSchema.safeParse({
         name: formData.get('name') as string,
         email: formData.get('email') as string,
         password: formData.get('password') as string
     })
 
-    if (!validatiedFeilds.success) {
+    if (!validatedFeilds.success) {
         return {
-            errors: validatiedFeilds.error.flatten().fieldErrors,
+            errors: validatedFeilds.error.flatten().fieldErrors,
+        }
+    }
+}
+
+// login validation
+export const loginValidation = async (state: LoginFormState, formData: FormData) => {
+    const validatedFeilds = LoginFormSchema.safeParse({
+        email: formData.get('email') as string,
+        password: formData.get('password') as string
+    })
+
+    if(!validatedFeilds.success){
+        return {
+            errors: validatedFeilds.error.flatten().fieldErrors,
         }
     }
 }

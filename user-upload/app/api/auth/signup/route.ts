@@ -36,7 +36,7 @@ export const POST = async (request: NextRequest) => {
             }
         })
 
-        return NextResponse.json({ message: 'User added', user: newAuth }, { status: 201 })
+        return NextResponse.json({ message: 'Signup success', user: newAuth }, { status: 201 })
     } catch (error) {
         console.log(`Error: ${error}`)
         return NextResponse.json({ error: 'Failed to signup' }, { status: 500 })

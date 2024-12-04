@@ -8,7 +8,7 @@ import { toast } from "sonner"
 
 export const userFormAction = () => {
     const [file, setFile] = useState<File | null>(null)
-    const [errors, setErrors] = useState<Partial<Record<keyof UserFormError, string[]>>>()
+    const [errors, setErrors] = useState<Partial<Record<keyof UserFormError, string[]>>>({})
 
     const queryClient = useQueryClient()
     const router = useRouter()

@@ -31,7 +31,7 @@ export default function Signup() {
                             <button type="submit" className="w-full bg-slate-800 text-white font-[500] text-[0.9rem] py-2 rounded-sm flex flex-row items-center justify-center gap-[10px]"><span>
                                 {isLoading ? <Loader2 className='animate-spin' /> : null}
                             </span>
-                                {isLoading ? 'Signing' : 'Signup'}</button>
+                                {isLoading ? 'Signing up' : 'Signup'}</button>
                         </div>
                     </form>
                     <div className="mt-4 flex flex-row items-center justify-center gap-[5px]">

@@ -28,9 +28,9 @@ export type UserFormState = {
 
 // Signup validation
 export const SignupFormSchema = z.object({
-    name: z.string().min(2, {message: 'Name must be atleast 2 characters long'}).trim(),
-    email: z.string().email({message: 'Please enter valid email'}),
-    password: z.string().min(8, {message: 'Password must be atleast 8 characters long'}).trim()
+    name: z.string().min(2, { message: 'Name must be atleast 2 characters long' }).trim(),
+    email: z.string().email({ message: 'Please enter valid email' }),
+    password: z.string().min(8, { message: 'Password must be atleast 8 characters long' }).trim()
 })
 
 export type SignupFormError = {
@@ -39,5 +39,20 @@ export type SignupFormError = {
 
 export type SignupFormState = {
     errors?: SignupFormError,
+    message?: string
+} | undefined
+
+// Login validation
+export const LoginFormSchema = z.object({
+    email: z.string().email({ message: 'Please enter valid email' }),
+    password: z.string().min(8, { message: 'Password must be atleast 8 characters long' }).trim()
+})
+
+export type LoginFormError = {
+    [Key in keyof z.infer<typeof LoginFormSchema>]?: string[]
+}
+
+export type LoginFormState = {
+    errors?: LoginFormError,
     message?: string
 } | undefined

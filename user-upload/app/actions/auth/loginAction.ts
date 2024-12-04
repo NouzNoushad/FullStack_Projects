@@ -1,19 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
-import React, { useState } from "react"
 import { toast } from "sonner"
-import { signupValidation } from "../validation"
-import { SignupFormError } from "@/lib/validationSchema"
+import { loginValidation } from "../validation"
+import { useState } from "react"
+import { LoginFormError } from "@/lib/validationSchema"
 
-export const SignupFormAction = () => {
-    const [errors, setErrors] = useState<Partial<Record<keyof SignupFormError, string[]>>>({})
+export const LoginFormAction = () => {
+
+    const [errors, setErrors] = useState<Partial<Record<keyof LoginFormError, string[]>>>({})
 
     const queryClient = useQueryClient()
     const router = useRouter()
 
-    const signupMutation = useMutation({
+    const loginMutation = useMutation({
         mutationFn: async (formData: FormData) => {
-            const response = await fetch('/api/auth/signup/', {
+            const response = await fetch('/api/auth/login/', {
                 method: 'POST',
                 body: formData,
             })
@@ -28,10 +29,7 @@ export const SignupFormAction = () => {
         },
         onSuccess: (data) => {
             console.log(`data: ${data.message}`)
-
-            queryClient.invalidateQueries({
-                queryKey: ['auth']
-            })
+            queryClient.invalidateQueries({ queryKey: ['auth'] })
 
             toast(data.message)
 
@@ -39,29 +37,28 @@ export const SignupFormAction = () => {
         },
         onError: (error) => {
             console.log(`Error: ${error.message}`)
-
             toast(error.message)
         }
     })
 
-    const handleSignupFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLoginFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         const formData = new FormData(e.currentTarget)
 
-        const response = await signupValidation({}, formData)
+        const response = await loginValidation({}, formData)
 
         if (response?.errors) {
             setErrors(response.errors)
             return
         }
 
-        signupMutation.mutate(formData)
+        loginMutation.mutate(formData)
     }
 
     return {
-        handleSignupFormSubmit,
+        handleLoginFormSubmit,
         errors,
-        isLoading: signupMutation.isPending,
+        isLoading: loginMutation.isPending,
     }
 }
