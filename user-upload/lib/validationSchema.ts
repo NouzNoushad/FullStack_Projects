@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-const MAX_UPLOAD_SIZE = 3 * 1024 * 1024;
+import { MAX_UPLOAD_SIZE } from "./constants";
 
 // user validation schema
 export const UserFormSchema = z.object({
@@ -24,5 +23,21 @@ export type UserFormError = {
 // form state type
 export type UserFormState = {
     errors?: UserFormError,
+    message?: string
+} | undefined
+
+// Signup validation
+export const SignupFormSchema = z.object({
+    name: z.string().min(2, {message: 'Name must be atleast 2 characters long'}).trim(),
+    email: z.string().email({message: 'Please enter valid email'}),
+    password: z.string().min(8, {message: 'Password must be atleast 8 characters long'}).trim()
+})
+
+export type SignupFormError = {
+    [Key in keyof z.infer<typeof SignupFormSchema>]?: string[]
+}
+
+export type SignupFormState = {
+    errors?: SignupFormError,
     message?: string
 } | undefined

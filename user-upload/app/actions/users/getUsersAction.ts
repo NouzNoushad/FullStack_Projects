@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { User } from "@/app/interface/userInterface"
 import { useState } from "react"
-import { paginationLimit } from "@/lib/constants"
+import { LIMIT } from "@/lib/constants"
 import { toast } from "sonner"
 
 export const getUsersAction = () => {
@@ -25,12 +25,12 @@ export const getUsersAction = () => {
         const data = await response.json()
         console.log(`data: ${data.users}`)
 
-        const totalPagesLimit = Math.ceil(data.users.length / paginationLimit)
+        const totalPagesLimit = Math.ceil(data.users.length / LIMIT)
         setTotalPages(totalPagesLimit)
 
         const paginatedItems: User[] = data.users.slice(
-            (currentPage - 1) * paginationLimit,
-            currentPage * paginationLimit
+            (currentPage - 1) * LIMIT,
+            currentPage * LIMIT
         )
 
         return paginatedItems

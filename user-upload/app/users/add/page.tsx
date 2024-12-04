@@ -49,13 +49,13 @@ export default function AddUsers() {
                                     <div className="flex flex-row items-center justify-between form-input">
                                         <h4 className={file ? 'text-black' : `text-gray-400`}>{file ? file.name : 'Upload image'}</h4>
                                         <label>
-                                            <span className=' bg-black px-5 py-2 text-white rounded-md text-[0.9rem] cursor-pointer'>Upload</span>
+                                            <span className=' bg-slate-800 px-5 py-2 text-white rounded-md text-[0.9rem] cursor-pointer'>Upload</span>
                                             <input type="file" id='name' onChange={handleImageUpload} accept="image/*" className='hidden' />
                                         </label>
                                     </div>
                                     {errors?.image && <p className="form-error">{errors.image}</p>}
                                 </div>
-                                <Button type='submit' className='mt-5 uppercase'>
+                                <Button type='submit' className='mt-5 uppercase bg-slate-800'>
                                     <span>
                                         {isLoading ? <Loader2 className='animate-spin' /> : null}
                                     </span>
