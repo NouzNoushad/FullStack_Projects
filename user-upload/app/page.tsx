@@ -39,7 +39,7 @@ export default function Home() {
                                     <TableCell className="text-[0.95rem]">{LIMIT * (currentPage - 1) + index + 1}</TableCell>
                                     <TableCell className="h-[60px] w-[100px]">
                                         {
-                                            user.image ? <Image src={user.image.secureUrl} alt="" width={'80'} height={'80'} className="rounded-[50%] h-[60px] w-[60px] mx-auto" /> : <div className="rounded-[50%] h-[60px] w-[60px] bg-slate-300 mx-auto"></div>
+                                            user.image ? <Image src={user.image.secureUrl} alt="" priority width={'80'} height={'80'} className="rounded-[50%] h-[60px] w-[60px] mx-auto" /> : <div className="rounded-[50%] h-[60px] w-[60px] bg-slate-300 mx-auto"></div>
                                         }
                                     </TableCell>
                                     <TableCell className="text-[0.95rem]">{user.name}</TableCell>

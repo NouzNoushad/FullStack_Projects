@@ -34,7 +34,6 @@ export const SignupFormAction = () => {
             })
 
             toast(data.message)
-
             router.push('/')
         },
         onError: (error) => {

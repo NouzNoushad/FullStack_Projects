@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { loginValidation } from "../validation"
 import { useState } from "react"
@@ -10,7 +9,6 @@ export const LoginFormAction = () => {
     const [errors, setErrors] = useState<Partial<Record<keyof LoginFormError, string[]>>>({})
 
     const queryClient = useQueryClient()
-    const router = useRouter()
 
     const loginMutation = useMutation({
         mutationFn: async (formData: FormData) => {
@@ -33,7 +31,8 @@ export const LoginFormAction = () => {
 
             toast(data.message)
 
-            router.push('/')
+            window.location.reload()
+            window.location.replace('/')
         },
         onError: (error) => {
             console.log(`Error: ${error.message}`)

@@ -1,12 +1,15 @@
 import prisma from "@/lib/prismaClient";
 import { compare } from "bcrypt";
 import { NextRequest, NextResponse } from "next/server";
-import { serialize } from "cookie";
+import { cookies } from "next/headers";
+import { COOKIE_CONSTANT } from "@/lib/constants";
 
 export const POST = async (request: NextRequest) => {
     const formData = await request.formData()
     const email = formData.get('email') as string
     const password = formData.get('password') as string
+
+    const cookieStore = cookies()
 
     try {
         const user = await prisma.auth.findUnique({ where: { email: email } })
@@ -19,19 +22,12 @@ export const POST = async (request: NextRequest) => {
             return NextResponse.json({ error: 'Invalid password' }, { status: 400 })
         }
 
-        // cookie
-        const cookie = serialize('session', email, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            path: '/',
-            maxAge: 60 * 60 * 24,
-        })
+        (await cookieStore).set(COOKIE_CONSTANT, user.email)
 
         const response = NextResponse.json({ message: 'Login success' }, { status: 200 })
-        response.headers.append('Set-Cookie', cookie)
 
         return response
-        
+
     } catch (error) {
         console.log(`Error: ${error}`)
         return NextResponse.json({ error: 'Failed to login' }, { status: 500 })
