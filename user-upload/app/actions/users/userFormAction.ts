@@ -2,16 +2,39 @@
 import { useState } from "react"
 import { userValidation } from "../validation"
 import { UserFormError } from "@/lib/validationSchema"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 
 export const userFormAction = () => {
+    const params = useSearchParams()
+    const id = params.get('id')
+
     const [file, setFile] = useState<File | null>(null)
     const [errors, setErrors] = useState<Partial<Record<keyof UserFormError, string[]>>>({})
 
     const queryClient = useQueryClient()
     const router = useRouter()
+
+    // get user data
+    const getUser = async () => {
+        const response = await fetch(`/api/users/${id}`)
+        const data = await response.json()
+        if (!response.ok) {
+            throw new Error(data.error)
+        }
+
+        const user = data.user
+        return user
+    }
+
+    const { data: user, error: userError, isLoading: isUserLoading } = useQuery({
+        queryKey: ['user', id],
+        queryFn: getUser,
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: false,
+        enabled: !!id
+    })
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -22,8 +45,10 @@ export const userFormAction = () => {
 
     const userFormMutation = useMutation({
         mutationFn: async (formData: FormData) => {
-            const response = await fetch('/api/users/', {
-                method: 'POST',
+            const endPoint = id ? `/api/users/${id}` : '/api/users'
+            const method = id ? 'PUT' : "POST"
+            const response = await fetch(endPoint, {
+                method,
                 body: formData,
             })
 
@@ -56,7 +81,12 @@ export const userFormAction = () => {
 
         if (file) {
             formData.append('image', file)
-        } else {
+        }
+        else if (id && user) {
+            console.log(`///// user image: ${user.image}`)
+            formData.append('image', user.image)
+        }
+        else {
             formData.append('image', '')
         }
 
@@ -76,5 +106,8 @@ export const userFormAction = () => {
         file,
         errors,
         isLoading: userFormMutation.isPending,
+        user,
+        userError,
+        isUserLoading
     }
 }

@@ -4,12 +4,12 @@ export interface Image {
 }
 
 export interface User {
-    id: string
+    id?: string
     name: string
     email: string
     phone: string
-    profession: string
-    image: Image
+    profession?: string
+    image?: Image | string
 }
 
 export interface PaginationProps {

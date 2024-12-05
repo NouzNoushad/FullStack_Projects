@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { MAX_UPLOAD_SIZE } from "./constants";
 
 // user validation schema
 export const UserFormSchema = z.object({
@@ -9,10 +8,7 @@ export const UserFormSchema = z.object({
     profession: z.string().optional(),
     image: z
         .any()
-        .optional()
-        .refine((file) => {
-            return !file || file.size <= MAX_UPLOAD_SIZE;
-        }, 'File size must be less than 3MB'),
+        .optional(),
 })
 
 // error handling type
