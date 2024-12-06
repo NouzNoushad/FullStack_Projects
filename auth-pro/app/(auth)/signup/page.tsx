@@ -5,14 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from '@/lib/validationSchema';
+import { signupSchema } from '@/lib/validationSchema';
 import { SignupUserAction } from '@/app/actions/signupUserAction';
 import { Loader2 } from 'lucide-react';
 
 export default function Signup() {
 
     const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(signupSchema)
     })
 
     const { onSignupUser, isLoading } = SignupUserAction()

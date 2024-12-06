@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AuthForm } from "@/interface/interface"
+import { SignAuthForm } from "@/interface/interface"
+import { useRouter } from "next/navigation"
 import { QueryClient, useMutation } from "react-query"
+import { toast } from "sonner"
 
 export const SignupUserAction = () => {
 
     const queryClient = new QueryClient()
+    const router = useRouter()
 
-    const signupUser = async (authForm: AuthForm) => {
+    const signupUser = async (authForm: SignAuthForm) => {
         const response = await fetch('/api/auth/signup', {
             method: "POST",
             body: JSON.stringify(authForm),
@@ -29,13 +32,19 @@ export const SignupUserAction = () => {
             queryClient.invalidateQueries({
                 queryKey: ['auth']
             })
+
+            toast(data.message)
+
+            router.push('/')
         },
-        onError: (error) => {
+        onError: (error: Error) => {
             console.log(`Error: ${error}`)
+
+            toast(error.message)
         }
     })
 
-    const onSignupUser = (authForm: AuthForm) => {
+    const onSignupUser = (authForm: SignAuthForm) => {
         console.log(`////////////formdata: ${authForm.name}`)
 
         signupUserMutation.mutate(authForm)
