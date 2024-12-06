@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { deleteProductAction } from '@/app/actions/deleteProduct'
