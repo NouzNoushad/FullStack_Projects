@@ -23,13 +23,13 @@ export const LoginUserAction = () => {
         onSuccess: (data) => {
             console.log(`data: ${data?.ok}`)
 
-            toast('login succes')
+            toast.success('login succes')
 
             router.push('/')
         },
         onError: (error: Error) => {
             console.log(`error: ${error}`)
-            toast(error.message)
+            toast.error(error.message)
         }
     })
 

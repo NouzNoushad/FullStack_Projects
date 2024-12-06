@@ -33,14 +33,14 @@ export const SignupUserAction = () => {
                 queryKey: ['auth']
             })
 
-            toast(data.message)
+            toast.success(data.message)
 
             router.push('/')
         },
         onError: (error: Error) => {
             console.log(`Error: ${error}`)
 
-            toast(error.message)
+            toast.error(error.message)
         }
     })
 
