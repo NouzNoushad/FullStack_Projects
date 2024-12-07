@@ -5,7 +5,7 @@ import { getUsersAction } from "./actions/users/getUsersAction";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { PaginationComponent } from "@/components/pagination";
-import { DeleteIcon, EditIcon } from "@/components/svgs/svgs";
+import { DeleteIcon, EditIcon, SearchIcon } from "@/components/svgs/svgs";
 import { LIMIT } from "@/lib/constants";
 import { NavbarAction } from "./actions/navbarAction";
 import Link from "next/link";
@@ -22,6 +22,12 @@ export default function Home() {
     return (
         <main className="py-[5rem]">
             <div className="max-w-responsive">
+                <div className="flex flex-row items-center justify-center mb-4">
+                    <div className="md:w-[500px] w-full border-2 border-slate-800 flex flex-row items-center px-3 py-3 rounded-md">
+                        <input type="text" placeholder="Search..." className="grow outline-none"/>
+                        <SearchIcon className="size-5"/>
+                    </div>
+                </div>
                 <Table className="w-full">
                     <TableHeader className="w-full bg-slate-800 h-[50px] hover:bg-slate-800 pointer-events-none">
                         <TableRow>
