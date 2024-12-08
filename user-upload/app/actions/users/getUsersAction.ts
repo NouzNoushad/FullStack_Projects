@@ -1,19 +1,39 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { User } from "@/app/interface/userInterface"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { LIMIT } from "@/lib/constants"
 import { toast } from "sonner"
+import { debounce } from "lodash"
 
 export const getUsersAction = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [deleteId, setDeleteId] = useState<string | null>(null)
+    const [searchQuery, setSearchQuery] = useState("")
+    const [filteredItems, setFilteredItems] = useState<User[]>([])
 
     const queryClient = useQueryClient()
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page)
+    }
+
+    const handleSearchQuery = (query: string) => {
+        setSearchQuery(query)
+        setCurrentPage(1)
+    }
+
+    const setPaginatedItems = (users: User[]) => {
+        const totalPagesLimit = Math.ceil(users.length / LIMIT)
+        setTotalPages(totalPagesLimit)
+
+        const paginatedItems: User[] = users.slice(
+            (currentPage - 1) * LIMIT,
+            currentPage * LIMIT
+        )
+        return paginatedItems
     }
 
     // fetch users
@@ -25,15 +45,7 @@ export const getUsersAction = () => {
         const data = await response.json()
         console.log(`data: ${data.users}`)
 
-        const totalPagesLimit = Math.ceil(data.users.length / LIMIT)
-        setTotalPages(totalPagesLimit)
-
-        const paginatedItems: User[] = data.users.slice(
-            (currentPage - 1) * LIMIT,
-            currentPage * LIMIT
-        )
-
-        return paginatedItems
+        return data.users
     }
 
     const { data: paginatedItems = [], isLoading, error } = useQuery({
@@ -71,8 +83,22 @@ export const getUsersAction = () => {
         }
     })
 
+    const handleFilter = useMemo(
+        () => debounce((users: User[]) => {
+            const filtered = users.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()))
+
+            const items = setPaginatedItems(filtered)
+            setFilteredItems(items)
+        }, 300),
+        [searchQuery, currentPage]
+    )
+
+    useEffect(() => {
+        handleFilter(paginatedItems)
+    }, [searchQuery, currentPage, paginatedItems])
+
     return {
-        paginatedItems,
+        filteredItems,
         isLoading,
         error,
         handlePageChange,
@@ -80,6 +106,9 @@ export const getUsersAction = () => {
         totalPages,
         deleteId,
         handleDeleteUser: deleteUser.mutate,
-        isDeleting: deleteUser.isPending
+        isDeleting: deleteUser.isPending,
+        handleSearchQuery,
+        searchQuery,
+        setSearchQuery,
     }
 }

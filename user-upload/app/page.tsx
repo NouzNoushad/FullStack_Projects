@@ -5,13 +5,13 @@ import { getUsersAction } from "./actions/users/getUsersAction";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { PaginationComponent } from "@/components/pagination";
-import { DeleteIcon, EditIcon } from "@/components/svgs/svgs";
+import { DeleteIcon, EditIcon, SearchIcon } from "@/components/svgs/svgs";
 import { LIMIT } from "@/lib/constants";
 import { NavbarAction } from "./actions/navbarAction";
 import Link from "next/link";
 
 export default function Home() {
-    const { paginatedItems, totalPages, isLoading, error, handlePageChange, currentPage, deleteId, handleDeleteUser, isDeleting } = getUsersAction()
+    const { filteredItems, totalPages, isLoading, error, handlePageChange, currentPage, deleteId, handleDeleteUser, isDeleting, setSearchQuery } = getUsersAction()
     const { isLoggedIn } = NavbarAction()
 
     if (isLoading) return <p className="h-[calc(100vh-10vh)] flex items-center justify-center">
@@ -22,6 +22,12 @@ export default function Home() {
     return (
         <main className="py-[5rem]">
             <div className="max-w-responsive">
+                <div className="flex flex-row items-center justify-center mb-4">
+                    <div className="md:w-[500px] w-full border-2 border-slate-800 flex flex-row items-center px-3 py-3 rounded-md">
+                        <input type="text" placeholder="Search..." className="grow outline-none" onChange={(e) => setSearchQuery(e.target.value)} />
+                        <SearchIcon className="size-5" />
+                    </div>
+                </div>
                 <Table className="w-full">
                     <TableHeader className="w-full bg-slate-800 h-[50px] hover:bg-slate-800 pointer-events-none">
                         <TableRow>
@@ -44,7 +50,7 @@ export default function Home() {
                     </TableHeader>
                     <TableBody>
                         {
-                            paginatedItems && paginatedItems.map((user, index) => (
+                            filteredItems && filteredItems.map((user, index) => (
                                 <TableRow key={user.id}>
                                     <TableCell className="text-[0.95rem]">{LIMIT * (currentPage - 1) + index + 1}</TableCell>
                                     <TableCell className="h-[60px] w-[100px]">
