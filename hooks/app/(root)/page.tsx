@@ -1,11 +1,11 @@
 'use client'
-import Reducer from "./reducer/page";
+import Memo from "./memo/page";
 
 export default function Home() {
 
     return (
         <>
-            <Reducer />
+            <Memo />
         </>
     );
 }

@@ -6,9 +6,9 @@ export default function Effect() {
     useEffect(() => {
         setTimeout(() => setCount(count + 1), 1000)
     }, [count])
-    
+
   return (
-      <main className="flex flex-col items-center justify-center h-screen gap-5">
+      <main className="center">
           <h1>Timer: {count}</h1>
       </main>
   )

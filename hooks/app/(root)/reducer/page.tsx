@@ -12,7 +12,7 @@ export default function Reducer() {
             case TYPE.increment:
                 return { width: state.width + action.payload }
             case TYPE.decrement:
-                return { width: state.width - action.payload }
+                return { width: Math.max(state.width - action.payload, 10) }
             default:
                 return { width: state.width + 10 }
         }

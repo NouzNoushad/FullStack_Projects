@@ -81,13 +81,13 @@ export default function Basics() {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center h-screen gap-5">
+        <main className="center gap-5">
             <h2>Student Name: {student.name}</h2>
             <h3>Student Age: {student.age}</h3>
             <p>Student Class: {getClassStatus()}</p>
-            <input type="number" className="outline-none text-black px-2 py-2 rounded-md" onChange={(e) => handleInputChange(e.target.value)} value={student.age === '' ? '' : student.age} />
-            <button className="bg-white text-black px-2 py-2 rounded-md" onClick={() => handleStudentAge(ACTIONS.increase)}>Increase Age</button>
-            <button className="bg-white text-black px-2 py-2 rounded-md" onClick={() => handleStudentAge(ACTIONS.decrease)}>Decrease Age</button>
+            <input type="number" className="input" onChange={(e) => handleInputChange(e.target.value)} value={student.age === '' ? '' : student.age} />
+            <button className="button" onClick={() => handleStudentAge(ACTIONS.increase)}>Increase Age</button>
+            <button className="button" onClick={() => handleStudentAge(ACTIONS.decrease)}>Decrease Age</button>
         </main>
     );
 }
