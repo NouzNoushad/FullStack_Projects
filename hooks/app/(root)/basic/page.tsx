@@ -1,20 +1,47 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 
 import { useState } from "react";
 
 enum ACTIONS { increase, decrease }
 
-export default function Home() {
-    const [student, setStudent] = useState({
+interface Student {
+    name: string
+    age: number | string
+    class: number
+}
+
+export default function Basics() {
+    const [student, setStudent] = useState<Student>({
         name: 'Danny',
         age: 17,
         class: 12
     })
 
+    const handleInputChange = (value: string) => {
+        if (value === '') {
+            setStudent((prev) => ({
+                ...prev,
+                age: ''
+            }))
+        } else {
+            const parseAge = parseInt(value)
+            if (!isNaN(parseAge)) {
+                setStudent((prev) => ({
+                    ...prev,
+                    age: parseAge,
+                    class: parseAge >= 6 ? parseAge - 5 : 1,
+                }))
+            }
+        }
+    }
+
     const handleStudentAge = (action: ACTIONS) => {
         setStudent((prev) => {
-            const newAge = action === ACTIONS.increase ? prev.age + 1 : Math.max(1, prev.age - 1);
-            const newClass = action === ACTIONS.increase ? prev.age >= 6 ? prev.class + 1 : 1 : Math.max(1, prev.class - 1);
+            const currentAge = typeof prev.age === 'number' ? prev.age : parseInt(prev.age)
+            const newAge = action === ACTIONS.increase ? currentAge + 1 : Math.max(1, currentAge - 1);
+            const newClass = action === ACTIONS.increase ? currentAge >= 6 ? prev.class + 1 : 1 : Math.max(1, prev.class - 1);
 
             return { ...prev, age: newAge, class: newClass }
         })
@@ -37,13 +64,15 @@ export default function Home() {
     // }
 
     const getClassStatus = () => {
+        const currentAge = typeof student.age === 'number' ? student.age : parseInt(student.age)
+
         if (student.class > 12) {
             return 'Graduated'
         }
-        else if (student.age < 6 && student.age > 3) {
+        else if (currentAge < 6 && currentAge > 3) {
             return 'junior class'
         }
-        else if (student.age <= 3) {
+        else if (currentAge <= 3) {
             return 'Kindergarten'
         }
         else {
@@ -56,6 +85,7 @@ export default function Home() {
             <h2>Student Name: {student.name}</h2>
             <h3>Student Age: {student.age}</h3>
             <p>Student Class: {getClassStatus()}</p>
+            <input type="number" className="outline-none text-black px-2 py-2 rounded-md" onChange={(e) => handleInputChange(e.target.value)} value={student.age === '' ? '' : student.age} />
             <button className="bg-white text-black px-2 py-2 rounded-md" onClick={() => handleStudentAge(ACTIONS.increase)}>Increase Age</button>
             <button className="bg-white text-black px-2 py-2 rounded-md" onClick={() => handleStudentAge(ACTIONS.decrease)}>Decrease Age</button>
         </main>
