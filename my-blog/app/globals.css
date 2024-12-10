@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+    .nav-subtext {
+        @apply px-3 py-2 w-full transition-all duration-300 hover:bg-gray-100 rounded-md text-[0.9rem]
+    }
+}
