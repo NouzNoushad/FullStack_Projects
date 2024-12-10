@@ -1,11 +1,10 @@
-'use client'
-import Memo from "./memo/page";
+import Blog from "./blog/page";
 
 export default function Home() {
 
     return (
         <>
-            <Memo />
+            <Blog />
         </>
     );
 }
